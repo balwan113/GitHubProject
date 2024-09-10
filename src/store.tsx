@@ -2,15 +2,12 @@ import { makeAutoObservable } from "mobx";
 import axios from "axios";
 
 interface Product {
-  
   name: string;
-
 }
 
 class ProductStore {
   products: Product[] = [];
   searchTerm: string = "";
-  filteredProducts: Product[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -19,11 +16,10 @@ class ProductStore {
 
   setSearchTerm(value: string) {
     this.searchTerm = value;
-    this.filterProducts();
   }
 
-   filterProducts() {
-    this.filteredProducts = this.products.filter((product) =>
+  get filteredProducts() {
+    return this.products.filter((product) =>
       product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
@@ -32,9 +28,8 @@ class ProductStore {
     try {
       const { data } = await axios.get<Product[]>("https://de473e9291cac187.mokky.dev/dex");
       this.products = data;
-      this.filterProducts();
     } catch (e) {
-      console.error( e);
+      console.error(e);
     }
   }
 }

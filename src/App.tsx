@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { observer } from "mobx-react-lite";
 import { productStore } from "./store";
 
@@ -23,7 +23,7 @@ const App: React.FC = observer(() => {
       />
       <ul>
         {filteredProducts.map((product) => (
-          <li >
+          <li key={product.name}>
             {product.name} 
           </li>
         ))}
@@ -32,4 +32,4 @@ const App: React.FC = observer(() => {
   );
 });
 
-export default App; 
+export default memo(App);
