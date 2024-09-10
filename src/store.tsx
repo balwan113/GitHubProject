@@ -33,8 +33,8 @@ class ProductStore {
       const { data } = await axios.get<Product[]>("https://de473e9291cac187.mokky.dev/dex");
       this.products = data;
       this.filterProducts();
-    } catch (error) {
-      console.error( error);
+    } catch (e) {
+      console.error( e);
     }
   }
 }
