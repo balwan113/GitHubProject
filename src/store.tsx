@@ -1,3 +1,4 @@
+// store.ts
 import { makeAutoObservable } from "mobx";
 import axios from "axios";
 
@@ -7,21 +8,10 @@ interface Product {
 
 class ProductStore {
   products: Product[] = [];
-  searchTerm: string = "";
 
   constructor() {
     makeAutoObservable(this);
     this.fetchProducts();
-  }
-
-  setSearchTerm(value: string) {
-    this.searchTerm = value;
-  }
-
-  get filteredProducts() {
-    return this.products.filter((product) =>
-      product.name.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
   }
 
   async fetchProducts() {

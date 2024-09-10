@@ -1,35 +1,25 @@
-import React, { memo } from "react";
+// App.tsx
+import React from "react";
 import { observer } from "mobx-react-lite";
 import { productStore } from "./store";
 
 const App: React.FC = observer(() => {
-  const { filteredProducts, searchTerm, setSearchTerm } = productStore;
-
-  const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSearchTerm(value);
-  };
-
-  console.log("Rendered with searchTerm:", searchTerm); // Отладочный вывод
+  const { products } = productStore;
 
   return (
     <div>
-      <h1>Поиск товаров</h1>
-      <input
-        type="text"
-        placeholder="Введите название товара"
-        value={searchTerm}
-        onChange={onSearchChange}
-      />
+      <h1>Список продуктов</h1>
       <ul>
-        {filteredProducts.map((product) => (
-          <li key={product.name}>
-            {product.name} 
-          </li>
-        ))}
+        {products.length === 0 ? (
+          <li>Загрузка...</li>
+        ) : (
+          products.map((product, index) => (
+            <li key={index}>{product.name}</li>
+          ))
+        )}
       </ul>
     </div>
   );
 });
 
-export default memo(App);
+export default App;
