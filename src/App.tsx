@@ -1,16 +1,18 @@
-import React from "react";
-import { observer } from "mobx-react-lite";
-import { productStore } from "./store";
+import React from "react"
+import { observer } from "mobx-react-lite"
+
+import productStore from "./shared/store/store"
+import { IProduct } from "./shared/interfaces/IProduct"
+
 
 const App: React.FC = observer(() => {
-  const { filteredProducts, searchTerm, setSearchTerm } = productStore;
+
+  const { filteredProducts, searchTerm, setSearchTerm, loading } = productStore
 
   const onSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    setSearchTerm(value);
-  };
-
-  console.log("Rendered with searchTerm:", searchTerm); // Отладочный вывод
+    setSearchTerm(event.target.value)
+  }
+  
 
   return (
     <div>
@@ -21,15 +23,22 @@ const App: React.FC = observer(() => {
         value={searchTerm}
         onChange={onSearchChange}
       />
-      <ul>
-        {filteredProducts.map((product) => (
-          <li >
-            {product.name} 
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-});
+      {
+        loading 
+        ?
+        <p>Loading...</p>
+        :
+        <ul>
+          {filteredProducts?.map((product: IProduct) => (
+            <li key={product.name}>
+              {product?.name} 
+            </li>
+          ))}
+        </ul>
+      }
 
-export default App; 
+    </div>
+  )
+})
+
+export default App
